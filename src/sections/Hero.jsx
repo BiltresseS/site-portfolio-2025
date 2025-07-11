@@ -3,7 +3,7 @@ import profilePic from "../assets/profile.jpg";
 
 const Hero = () => {
     return (
-        <section className="min-h-screen flex items-start justify-center pt-[15%] bg-white" id="hero">
+        <section className="min-h-screen flex items-start justify-center pt-[15%] bg-white dark:bg-gray-900" id="hero">
             <div className="flex flex-col lg:flex-row items-center lg:items-center gap-6">
 
                 {/* Photo à gauche */}
@@ -15,7 +15,7 @@ const Hero = () => {
 
                 {/* Texte à droite */}
                 <div className="text-center lg:text-left">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-gray-800">
+                    <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 dark:text-gray-200">
                         BILTRESSE Sébastien
                     </h1>
                     <AnimatedCareerLoop />

@@ -15,6 +15,13 @@ Ce projet me permet également de maintenir mes compétences en développement f
 ## 📜 Historique des mises à jour
 
 - **2025-07-11**  
+  v0.0.2
+  
+  - Correction d'un bug d'ancres m'empêchant de revenir aux sections principales une fois dans une page de projet
+  - Remplissage de la section "A propos" avec sliders de technologies maîtrisées et de programmes utilisés dynamiques
+  - Ajout d'un mode dark automatique sur toute l'application
+
+- **2025-07-11**  
   v0.0.1
   
   Remplissage de la section "Hero" (page d'accueil) avec framer-motion pour le défilement des options de carrières
