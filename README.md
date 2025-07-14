@@ -14,6 +14,12 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-14**  
+  v0.0.3
+  
+  - Création et remplissage de la page "Mon parcours"
+  - Centralisation et optimisation des styles CSS liés aux animations dans la page tailwind.config.mjs (renommée depuis tailwind.config.js)
+
 - **2025-07-11**  
   v0.0.2
   

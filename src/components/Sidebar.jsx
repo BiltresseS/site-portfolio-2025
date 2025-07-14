@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaHome, FaUser, FaProjectDiagram, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaHome, FaUser, FaProjectDiagram, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
 import useActiveSection from "../utils/useActiveSection";
 
 const Sidebar = () => {
@@ -12,6 +12,7 @@ const Sidebar = () => {
     const menuItems = [
         { icon: <FaHome size={20} />, label: "Accueil", href: "/#hero", id: "hero" },
         { icon: <FaUser size={20} />, label: "À propos", href: "/#about", id: "about" },
+        { icon: <FaCalendarAlt size={20} />, label: "Mon parcours", href: "/#parcours", id: "parcours" },
         { icon: <FaProjectDiagram size={20} />, label: "Projets", href: "/#projects", id: "projects" },
         { icon: <FaEnvelope size={20} />, label: "Contact", href: "/#contact", id: "contact" },
     ];
