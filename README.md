@@ -15,6 +15,14 @@ Ce projet me permet également de maintenir mes compétences en développement f
 ## 📜 Historique des mises à jour
 
 - **2025-07-14**  
+  v0.0.4
+  
+  - optimisation de la page "Mon parcours" afin de proposer un visuel plus proche de mon CV
+  - Optimisation de la page "Mes projets" avec apparition du commanditaire du projet et de la date du projet sur la preview
+  - Tri chronologique des projets (isolation d'une fonction de tri présente dans "Mon Parcours" et transformation en un module importable n'importe où sur le site)
+  - Isolation de la table de mon parcours et transformation en un module importable en vue de simplifier la transformation en import de base de données plus tard
+
+- **2025-07-14**  
   v0.0.3
   
   - Création et remplissage de la page "Mon parcours"
