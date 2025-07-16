@@ -1,45 +1,17 @@
 import { useState, useEffect, useRef } from "react";
-import { DiVisualstudio, DiReact, DiAngularSimple, DiNodejsSmall } from "react-icons/di";
-import { FaVuejs } from "react-icons/fa";
-import {
-    SiAdobeillustrator, SiAdobephotoshop, SiAdobeindesign, SiAdobedreamweaver,
-    SiBlender, SiAutodeskmaya, SiUnity, SiNotepadplusplus, SiOpenai, SiCanva,
-    SiHtml5, SiCss3, SiJavascript, SiVite, SiFirebase, SiNestjs, SiExpress
-} from "react-icons/si";
-import pcsoftLogo from '../assets/pcsoft.png';
-import RestApiLogo from '../assets/restapi.png'
+import * as DiIcons from "react-icons/di";
+import * as SiIcons from "react-icons/si";
+import * as FiIcons from "react-icons/fi";
+import * as FaIcons from "react-icons/fa";
+import skills from "../data/skills";
+import technologies from "../data/technologies";
 
-const skills = [
-    { name: "Visual Studio Code", icon: <DiVisualstudio size={24} className="text-blue-500" />, level: 90 },
-    { name: "Adobe Illustrator", icon: <SiAdobeillustrator size={24} className="text-orange-500" />, level: 85 },
-    { name: "Adobe Photoshop", icon: <SiAdobephotoshop size={24} className="text-blue-400" />, level: 85 },
-    { name: "Adobe InDesign", icon: <SiAdobeindesign size={24} className="text-pink-500" />, level: 80 },
-    { name: "Adobe Dreamweaver", icon: <SiAdobedreamweaver size={24} className="text-green-500" />, level: 70 },
-    { name: "Blender", icon: <SiBlender size={24} className="text-orange-400" />, level: 65 },
-    { name: "Autodesk Maya", icon: <SiAutodeskmaya size={24} className="text-green-600" />, level: 60 },
-    { name: "Unity", icon: <SiUnity size={24} className="text-gray-800 dark:text-gray-300" />, level: 70 },
-    { name: "PcSoft WebDev", icon: <img src={pcsoftLogo} alt="PcSoft" className="w-6 h-6 rounded" />, level: 75 },
-    { name: "PcSoft WinDev Mobile", icon: <img src={pcsoftLogo} alt="PcSoft" className="w-6 h-6 rounded" />, level: 70 },
-    { name: "Notepad++", icon: <SiNotepadplusplus size={24} className="text-green-500" />, level: 80 },
-    { name: "ChatGPT", icon: <SiOpenai size={24} className="text-emerald-500" />, level: 75 },
-    { name: "Canva", icon: <SiCanva size={24} className="text-blue-400" />, level: 85 },
-];
-
-const technologies = [
-    { name: "HTML", icon: <SiHtml5 size={24} className="text-orange-600" />, level: 95 },
-    { name: "CSS", icon: <SiCss3 size={24} className="text-blue-600" />, level: 90 },
-    { name: "JavaScript", icon: <SiJavascript size={24} className="text-yellow-400" />, level: 90 },
-    { name: "React", icon: <DiReact size={24} className="text-cyan-400" />, level: 85 },
-    { name: "React Native", icon: <DiReact size={24} className="text-cyan-500" />, level: 80 },
-    { name: "Angular", icon: <DiAngularSimple size={24} className="text-red-600" />, level: 75 },
-    { name: "Vue", icon: <FaVuejs size={24} className="text-green-500" />, level: 75 },
-    { name: "Vite", icon: <SiVite size={24} className="text-purple-600" />, level: 80 },
-    { name: "Node.js", icon: <DiNodejsSmall size={24} className="text-green-700" />, level: 80 },
-    { name: "Express", icon: <SiExpress size={24} className="text-gray-700  dark:text-gray-300" />, level: 75 },
-    { name: "NestJS", icon: <SiNestjs size={24} className="text-red-600" />, level: 70 },
-    { name: "REST", icon: <img src={RestApiLogo} alt="Rest Api" className="w-6 h-6 rounded" />, level: 85 },
-    { name: "Firebase", icon: <SiFirebase size={24} className="text-yellow-600" />, level: 75 },
-];
+const iconLibraries = {
+    DiIcons,
+    SiIcons,
+    FiIcons,
+    FaIcons,
+};
 
 const About = () => {
     const [visible, setVisible] = useState(false);
@@ -87,7 +59,12 @@ const About = () => {
                     {skills.map((skill) => (
                         <div key={skill.name} className="flex flex-col items-start space-y-1">
                             <div className="flex items-center space-x-2">
-                                {skill.icon}
+                                {
+                                    (() => {
+                                        const IconComponent = iconLibraries[skill.library][skill.icon];
+                                        return <IconComponent size={24} className={skill.color} />;
+                                    })()
+                                }
                                 <span className="font-medium text-gray-800 dark:text-gray-200">{skill.name}</span>
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
@@ -106,7 +83,12 @@ const About = () => {
                     {technologies.map((tech) => (
                         <div key={tech.name} className="flex flex-col items-start space-y-1">
                             <div className="flex items-center space-x-2">
-                                {tech.icon}
+                                {
+                                    (() => {
+                                        const IconComponent = iconLibraries[tech.library][tech.icon];
+                                        return <IconComponent size={24} className={tech.color} />;
+                                    })()
+                                }
                                 <span className="font-medium text-gray-800 dark:text-gray-200">{tech.name}</span>
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">

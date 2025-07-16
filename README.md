@@ -14,10 +14,23 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
-- **2025-07-14**  
+- **2025-07-16**  
+  v0.0.5
+  
+  - Modification de la page ProjectDetails.jsx pour devenir dynamique avec import depuis la table projects.js
+  - Modification de la table projects.js afin d'y intégrer les données nécessaires pour la page ProjectDetails.jsx : 
+    - Duration
+    - Image qui devient Images (et un array => possibilité d'avoir plusieurs images)
+    - Technologies
+  - Modification de Projects.jsx pour afficher la première image de projects.images (vu que c'est devenu un array)
+  - Isolation des tables skills et technologies de la page About.jsx et transformation en 2 modules importables dans About.jsx et ProjectDetails.jsx (afin d'avoir les petites icônes sans à devoir les importer manuellement dans chaque page) => plus tard, ces tables pourront être remplies dynamiquement lors de l'ajout d'un projet sans pour autant devoir remettre les imports d'icônes en dur dans les 2 pages
+  - Création d'une gallerie d'image défilante dans ProjectDetails.jsx. 2 options : une gallerie native en Tailwind/Vanilla ou utilisation de SwiperJs. SwiperJs a gagné...
+  - Création d'un module de modale pour l'affichage des images de la gallerie
+
+- **2025-07-15**  
   v0.0.4
   
-  - optimisation de la page "Mon parcours" afin de proposer un visuel plus proche de mon CV
+  - Optimisation de la page "Mon parcours" afin de proposer un visuel plus proche de mon CV
   - Optimisation de la page "Mes projets" avec apparition du commanditaire du projet et de la date du projet sur la preview
   - Tri chronologique des projets (isolation d'une fonction de tri présente dans "Mon Parcours" et transformation en un module importable n'importe où sur le site)
   - Isolation de la table de mon parcours et transformation en un module importable en vue de simplifier la transformation en import de base de données plus tard

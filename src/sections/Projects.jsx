@@ -22,7 +22,7 @@ export default function Projects() {
                         <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.client}</p>
                         <img
-                            src={project.image}
+                            src={project.images[0]}
                             alt={project.title}
                             className="w-full h-auto rounded mb-2"
                         />
