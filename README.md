@@ -14,6 +14,12 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-18**  
+  v0.0.6
+  
+  - Modification de la page Contact.jsx avec création d'un formulaire et possibilité d'envoi de mail direct
+  - Utilisation (temporaire) de Formspree pour un envoi simple, sécurisé et sans back-end de mails
+
 - **2025-07-16**  
   v0.0.5
   
@@ -26,6 +32,7 @@ Ce projet me permet également de maintenir mes compétences en développement f
   - Isolation des tables skills et technologies de la page About.jsx et transformation en 2 modules importables dans About.jsx et ProjectDetails.jsx (afin d'avoir les petites icônes sans à devoir les importer manuellement dans chaque page) => plus tard, ces tables pourront être remplies dynamiquement lors de l'ajout d'un projet sans pour autant devoir remettre les imports d'icônes en dur dans les 2 pages
   - Création d'une gallerie d'image défilante dans ProjectDetails.jsx. 2 options : une gallerie native en Tailwind/Vanilla ou utilisation de SwiperJs. SwiperJs a gagné...
   - Création d'un module de modale pour l'affichage des images de la gallerie
+  - correction d'un oubli de changement de date et d'une majuscule dans README.md (Oups... ^^;)
 
 - **2025-07-15**  
   v0.0.4
