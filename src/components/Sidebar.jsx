@@ -21,7 +21,7 @@ const Sidebar = () => {
         <>
             {/* Bouton hamburger mobile */}
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-gray-800 text-white"
+                className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-accent dark:bg-primary"
                 onClick={() => setIsMobileOpen(true)}
                 aria-label="Ouvrir le menu"
             >
@@ -33,7 +33,7 @@ const Sidebar = () => {
                 onMouseEnter={() => setIsExpanded(true)}
                 onMouseLeave={() => setIsExpanded(false)}
                 className={`
-                    hidden lg:flex fixed top-0 left-0 h-full bg-gray-800 text-white
+                    hidden lg:flex fixed top-0 left-0 h-full bg-accent dark:bg-primary
                     flex-col items-start z-40 transition-all duration-300 ease-in-out
                     ${isExpanded ? "w-48" : "w-14"}
                 `}
@@ -46,7 +46,10 @@ const Sidebar = () => {
                             className={`
                                 flex items-center w-full px-2 py-2 rounded 
                                 transition-colors duration-300
-                                ${activeSection === id ? "bg-gray-700 text-blue-400" : "hover:bg-gray-700"}
+                                ${activeSection === id
+                                    ? "bg-primary dark:bg-accent text-accent dark:text-primary"
+                                    : "hover:bg-primary hover:text-base dark:hover:bg-accent dark:hover:text-base-dark"
+                                }
                             `}
                         >
                             <span className="text-xl">{icon}</span>
@@ -67,7 +70,7 @@ const Sidebar = () => {
             <div
                 className={`
                     fixed top-0 left-0 
-                    bg-gray-800 text-white
+                    bg-linear-to-r from-accent dark:from-primary to-accent-light dark:to-primary-dark
                     flex flex-col items-start z-50
                     transform transition-transform duration-300 ease-in-out
                     lg:hidden
@@ -81,7 +84,6 @@ const Sidebar = () => {
                     <button
                         onClick={() => setIsMobileOpen(false)}
                         aria-label="Fermer le menu"
-                        className="text-white"
                     >
                         <FaTimes size={24} />
                     </button>
@@ -95,7 +97,7 @@ const Sidebar = () => {
                             className={`
                                 flex items-center w-full px-2 py-2 rounded 
                                 transition-colors duration-300
-                                ${activeSection === id ? "bg-gray-700 text-blue-400" : "hover:bg-gray-700"}
+                                ${activeSection === id ? "bg-primary dark:bg-accent text-accent dark:text-base-dark" : ""}
                             `}
                         >
                             <span className="text-xl">{icon}</span>

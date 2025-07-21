@@ -14,6 +14,17 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-21**  
+  v0.0.7
+  
+  - Uniformisation du polish du site :
+    - Centralisation du thème des couleurs et des polices uitilisées dans index.css
+    - Extraction du thème des couleurs et des polices utilisées dans tailwind.config.mjs (de toutes façons, ça ne fonctionnait pas)
+    - Nouveau design de la page Hero.jsx, plus en accord avec mon CV actuel
+    - Idem pour Sidebar.jsx
+  - Adaptation de AnimatedCareerLoop.jsx : les couleurs et polices différentes rendaient bien sur fond blanc, mais maintenant qu'on est pro et sur un fond coloré, ça passe à la trappe !
+  - Petite correction dans Contact.jsx : utilisation d'icônes de Font Awesome plutôt que des icônes de base de Windows. Plus mieux !
+
 - **2025-07-18**  
   v0.0.6
   

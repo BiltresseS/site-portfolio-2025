@@ -3,22 +3,30 @@ import profilePic from "../assets/profile.jpg";
 
 const Hero = () => {
     return (
-        <section className="min-h-screen flex items-start justify-center pt-[15%] bg-white dark:bg-gray-900" id="hero">
-            <div className="flex flex-col lg:flex-row items-center lg:items-center gap-6">
+        <section id="hero" className="relative w-full min-h-screen flex justify-center bg-base dark:bg-base-dark">
 
-                {/* Photo à gauche */}
-                <img
-                    src={profilePic}
-                    alt="Photo portrait"
-                    className="w-40 h-40 rounded-full object-cover border-4 border-gray-300 shadow-lg"
-                />
+            {/* Bande en gradient */}
+            <div className=" absolute top-1/4 left-0 w-full h-60 md:h-54 lg:h-40 bg-gradient-to-r from-accent dark:from-primary to-accent-light dark:to-primary-dark flex justify-center">
 
-                {/* Texte à droite */}
-                <div className="text-center lg:text-left">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 dark:text-gray-200">
-                        BILTRESSE Sébastien
-                    </h1>
-                    <AnimatedCareerLoop />
+                {/* Contenu centré */}
+                <div className="flex flex-col lg:flex-row items-center gap-6 max-w-4xl w-full px-4">
+
+                    {/* Photo qui dépasse légèrement */}
+                    <div className="relative -mt-20 -mb-4 lg:-mt-8 lg:-mb-8">
+                        <img
+                            src={profilePic}
+                            alt="Photo portrait"
+                            className="w-40 h-40 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-base dark:border-base-dark shadow-lg"
+                        />
+                    </div>
+
+                    {/* Texte */}
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-4xl sm:text-5xl font-poppins text-primary dark:text-accent mb-2">
+                            BILTRESSE Sébastien
+                        </h1>
+                        <AnimatedCareerLoop />
+                    </div>
                 </div>
             </div>
         </section>

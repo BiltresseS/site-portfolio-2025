@@ -4,6 +4,10 @@ export default {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
     ],
+    safelist: [
+        'bg-gradient-accent',
+        'bg-gradient-accent-right',
+    ],
     theme: {
         extend: {
             keyframes: {
@@ -23,4 +27,4 @@ export default {
         },
     },
     plugins: [],
-}
+};

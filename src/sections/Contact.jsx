@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaCheckCircle, FaTimesCircle, FaExclamationCircle } from "react-icons/fa";
 
 export default function Contact() {
     const [status, setStatus] = useState("");
@@ -66,21 +67,21 @@ export default function Contact() {
 
             {status === "SUCCESS" ? (
                 <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <div className="text-green-600 dark:text-green-400 text-4xl mb-4">✅</div>
+                    <FaCheckCircle className="text-green-600 dark:text-green-400 text-5xl mb-4" />
                     <p className="text-lg text-center">
-                        Merci pour ton message ! Je reviendrai vers vous rapidement.
+                        Merci pour votre message ! Je reviendrai vers vous rapidement.
                     </p>
                 </div>
             ) : status === "ERROR" ? (
                 <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <div className="text-red-600 dark:text-red-400 text-4xl mb-4">❌</div>
+                    <FaTimesCircle className="text-red-600 dark:text-red-400 text-5xl mb-4" />
                     <p className="text-lg text-center">
                         Une erreur est survenue. Merci de réessayer ou de me contacter par mail.
                     </p>
                 </div>
             ) : status === "INVALID_EMAIL" ? (
                 <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <div className="text-yellow-600 dark:text-yellow-400 text-4xl mb-4">⚠️</div>
+                    <FaExclamationCircle className="text-yellow-600 dark:text-yellow-400 text-5xl mb-4" />
                     <p className="text-lg text-center">
                         L'adresse email semble invalide. Merci de vérifier avant d'envoyer.
                     </p>
