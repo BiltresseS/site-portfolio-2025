@@ -6,7 +6,7 @@ const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-    const sectionIds = ["hero", "about", "projects", "contact"];
+    const sectionIds = ["hero", "about", "parcours", "projects", "contact"];
     const activeSection = useActiveSection(sectionIds);
 
     const menuItems = [

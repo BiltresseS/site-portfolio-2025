@@ -11,7 +11,7 @@ const formatDateRange = (start, end) => {
     return `${startDate.toLocaleDateString('fr-FR', options)} - ${endDate.toLocaleDateString('fr-FR', options)}`;
 };
 
-const Timeline = () => {
+const Parcours = () => {
     const [visible, setVisible] = useState(false);
     const timelineRef = useRef(null);
     const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -142,4 +142,4 @@ const Timeline = () => {
     );
 };
 
-export default Timeline;
+export default Parcours;

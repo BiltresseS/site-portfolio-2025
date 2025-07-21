@@ -15,6 +15,16 @@ Ce projet me permet également de maintenir mes compétences en développement f
 ## 📜 Historique des mises à jour
 
 - **2025-07-21**  
+  v0.0.8
+  
+  - Correction vite-fait d'un bug de code qui faisait que le menu ne voyaient pas quand on était sur la page Parcours.jsx. Pour corriger :
+    - Transformation de la page Expreriences.jsx en Parcours.jsx
+    - Adaptation du nom de la page (et de son import) dans App.jsx
+    - Modification de useActiveSection.js où threshold: 0.5 devient threshold: 0.25 => maintenant le menu voit le changement quand on affiche 25% de la page au lieu de 50% de la page (vu que c'est pour le moment la plus grande page du site)
+  - Suppression de 2 couleurs inutilisées dans le thème (index.css)
+  - Polish du polish de la page About.jsx (version mobile)
+
+- **2025-07-21**  
   v0.0.7
   
   - Uniformisation du polish du site :

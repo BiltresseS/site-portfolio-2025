@@ -13,7 +13,7 @@ export default function useActiveSection(sectionIds) {
                 });
             },
             {
-                threshold: 0.5, // déclenche quand 50% de la section est visible
+                threshold: 0.25, // déclenche quand 50% de la section est visible
             }
         );
 
