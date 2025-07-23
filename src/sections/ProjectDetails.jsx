@@ -63,10 +63,10 @@ export default function ProjectDetails() {
     };
 
     return (
-        <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+        <div className="min-h-screen p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200">
             <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
-                    <h2 className="text-3xl font-bold">{title}</h2>
+                    <h2 className="text-3xl font-bold text-primary dark:text-accent">{title}</h2>
                     <Link to="/#projects" className="text-blue-600 hover:underline text-base sm:text-sm">
                         ← Retour aux projets
                     </Link>
@@ -162,7 +162,7 @@ export default function ProjectDetails() {
                         return (
                             <span
                                 key={index}
-                                className="flex items-center space-x-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-sm"
+                                className="flex items-center space-x-1 bg-accent-light dark:bg-primary-dark dark:text-blue-200 px-2 py-1 rounded text-sm"
                             >
                                 <IconComponent size={18} className={techData.color} />
                                 <span>{techData.name}</span>

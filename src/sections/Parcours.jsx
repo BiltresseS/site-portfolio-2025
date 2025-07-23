@@ -48,12 +48,12 @@ const Parcours = () => {
         <section
             ref={timelineRef}
             id="parcours"
-            className="min-h-screen flex flex-col items-center justify-center py-12 bg-gray-100 dark:bg-gray-900 transition-colors duration-500 px-4 sm:px-6 md:px-14"
+            className="min-h-screen flex flex-col items-center justify-center py-12 bg-base dark:bg-base-dark transition-colors duration-500 px-4 sm:px-6 md:px-14"
         >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-gray-800 dark:text-gray-200">Mon Parcours</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-primary dark:text-accent">Mon Parcours</h2>
             <div className="relative w-full max-w-4xl">
                 {/* Barre verticale */}
-                <div className="absolute top-0 bottom-0 sm:left-1/2 sm:transform sm:-translate-x-1/2 left-2 w-1 bg-purple-500"></div>
+                <div className="absolute top-0 bottom-0 sm:left-1/2 sm:transform sm:-translate-x-1/2 left-2 w-1 bg-accent dark:bg-primary"></div>
 
                 <div className="space-y-12">
                     {sortedEvents.map((event, index) => {
@@ -85,7 +85,7 @@ const Parcours = () => {
                                 {/* Carte */}
                                 <div
                                     className={`
-                                        bg-white dark:bg-gray-800 rounded-lg shadow-md p-6
+                                        bg-accent-light dark:bg-primary-dark rounded-lg shadow-md p-6
                                         w-[92%] ml-6 sm:ml-0 sm:w-7/15
                                         sm:static relative
                                     `}

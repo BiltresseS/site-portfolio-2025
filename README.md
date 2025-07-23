@@ -14,6 +14,13 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-23**  
+  v0.0.9
+  
+  - Application de la charte graphique sur les pages Projects.jsx, ProjectDetails.jsx, Contact.jsx et Footer.jsx
+  - Correction du thème graphique sur la page About.jsx, Parcours.jsx et Modal.jsx afin d'être plus proche de mon CV
+  - Application d'une pagination dans les projets afin de ne pas avoir de page qui se tirent en longueur lors de nombreux projets. La page affiche 3 éléments en mobile et 6 en tablette/desktop.
+
 - **2025-07-21**  
   v0.0.8
   

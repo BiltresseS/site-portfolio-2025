@@ -14,12 +14,13 @@
     --color-primary-dark: #2e0085;
     --color-accent: #ccb4ff;
     --color-accent-light: #f0e0ff;
-    --color-encadre: #374151;
-    --color-encadre-dark: #e5e7eb;
+    --color-encadre: #ccc;
+    --color-encadre-dark: #374151;
     --color-encadre-slider: #878787;
     --color-base: #ffffff;
     --color-base-dark: #111827;
-    --color-text-dark: #000000;
+    --color-text: #000;
+    --color-text-dark: #ccc;
 }
 
 body {

@@ -50,9 +50,9 @@ export default function Contact() {
     return (
         <section
             id="contact"
-            className="min-h-screen flex flex-col items-center justify-center p-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+            className="min-h-screen flex flex-col items-center justify-center p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200"
         >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center">Contacte-moi</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center text-primary dark:text-accent">Contactez-moi</h2>
             <p className="max-w-xl text-center mb-6">
                 Une question, un projet ou une opportunité professionnelle&nbsp;? Utilise ce formulaire pour me contacter directement.
                 Si le formulaire ne fonctionne pas, vous pouvez m'écrire à
@@ -89,13 +89,19 @@ export default function Contact() {
             ) : (
                 <form
                     onSubmit={handleSubmit}
-                    className="w-full max-w-lg bg-white dark:bg-gray-800 p-6 rounded shadow space-y-4 animate-fade-in"
+                    className="w-full max-w-lg bg-encadre dark:bg-encadre-dark p-6 rounded shadow space-y-4 animate-fade-in"
                 >
                     {/* Honeypot */}
                     <div className="hidden">
                         <label>
                             Website
-                            <input type="text" name="website" />
+                            <input
+                                type="text"
+                                name="website"
+                                id="web"
+                                className="w-full p-2 border rounded bg-base dark:text-gray-800"
+                                placeholder="vote site"
+                            />
                         </label>
                     </div>
 
@@ -106,7 +112,7 @@ export default function Contact() {
                             name="name"
                             id="name"
                             required
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
                             placeholder="Votre nom"
                         />
                     </div>
@@ -117,7 +123,7 @@ export default function Contact() {
                             type="text"
                             name="organization"
                             id="organization"
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
                             placeholder="Nom de l'organisation"
                         />
                     </div>
@@ -129,7 +135,7 @@ export default function Contact() {
                             name="email"
                             id="email"
                             required
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
                             placeholder="votremail@example.com"
                         />
                     </div>
@@ -141,7 +147,7 @@ export default function Contact() {
                             id="message"
                             required
                             rows="5"
-                            className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
                             placeholder="Votre message..."
                         ></textarea>
                     </div>
