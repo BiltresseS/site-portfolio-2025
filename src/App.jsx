@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import ScrollToHashElement from './components/ScrollToHashElement';
@@ -11,6 +12,10 @@ import Footer from './sections/Footer';
 import './App.css'
 
 function App() {
+  useEffect(() => {
+    document.title = "BILTRESSE Sébastien | CV + Portfolio";
+  }, []);
+
   return (
     <>
       <ScrollToHashElement />

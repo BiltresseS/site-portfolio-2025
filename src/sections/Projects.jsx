@@ -1,13 +1,30 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import projects from "../data/projects";
-import sortByDateDesc from "../utils/sortByDate";
+import { db } from "../firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 export default function Projects() {
-    const sortedProjects = sortByDateDesc(projects);
-
+    const [projects, setProjects] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth < 640 ? 3 : 6);
     const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+        document.title = "BILTRESSE Sébastien | CV + Portfolio";
+    }, []);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            const q = query(collection(db, "projects"), orderBy("endDate", "desc"));
+            const querySnapshot = await getDocs(q);
+            const fetchedProjects = [];
+            querySnapshot.forEach((doc) => {
+                fetchedProjects.push({ id: doc.id, ...doc.data() });
+            });
+            setProjects(fetchedProjects);
+        };
+
+        fetchProjects();
+    }, []);
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,9 +36,9 @@ export default function Projects() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const totalPages = Math.ceil(sortedProjects.length / itemsPerPage);
+    const totalPages = Math.ceil(projects.length / itemsPerPage);
 
-    const currentProjects = sortedProjects.slice(
+    const currentProjects = projects.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -31,7 +48,10 @@ export default function Projects() {
             if (page !== currentPage) {
                 setCurrentPage(page);
             }
-            document.getElementById("projects").scrollIntoView({ behavior: "smooth" });
+            const section = document.getElementById("projects");
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
         }
     };
 
@@ -52,11 +72,13 @@ export default function Projects() {
                     >
                         <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.client}</p>
-                        <img
-                            src={project.images[0]}
-                            alt={project.title}
-                            className="w-full h-auto rounded mb-2"
-                        />
+                        {project.images && project.images[0] && (
+                            <img
+                                src={project.images[0]}
+                                alt={project.title}
+                                className="w-full h-auto rounded mb-2"
+                            />
+                        )}
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.endDate}</p>
                         <p className="text-gray-700 dark:text-gray-300 text-sm">{project.description}</p>
                     </Link>
@@ -64,37 +86,39 @@ export default function Projects() {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center items-center mt-8 space-x-2">
-                <button
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="px-3 py-1 rounded bg-primary text-white disabled:opacity-50"
-                >
-                    Précédent
-                </button>
-
-                {[...Array(totalPages)].map((_, index) => (
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center mt-8 space-x-2">
                     <button
-                        key={index + 1}
-                        onClick={() => goToPage(index + 1)}
-                        className={`px-3 py-1 rounded 
-                            ${currentPage === index + 1
-                                ? "bg-accent text-primary"
-                                : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            }`}
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1 rounded bg-primary text-white disabled:opacity-50"
                     >
-                        {index + 1}
+                        Précédent
                     </button>
-                ))}
 
-                <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="px-3 py-1 rounded bg-primary text-white disabled:opacity-50"
-                >
-                    Suivant
-                </button>
-            </div>
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button
+                            key={index + 1}
+                            onClick={() => goToPage(index + 1)}
+                            className={`px-3 py-1 rounded 
+                                ${currentPage === index + 1
+                                    ? "bg-accent text-primary"
+                                    : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                                }`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1 rounded bg-primary text-white disabled:opacity-50"
+                    >
+                        Suivant
+                    </button>
+                </div>
+            )}
         </section>
     );
 }

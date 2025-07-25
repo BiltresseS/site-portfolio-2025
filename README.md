@@ -14,6 +14,13 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-25**  
+  v0.1.0
+  
+  - Premier pas du site web vers le dynamysme : La section 'Portfolio" va désormais chercher les informations sur Firebase
+  - Ajout de mon premier projet dans mon portfolio : ce site web
+  - Modification du favicon et de la description du site dans l'onglet de navigation. Désormais, le site affichera comme description "BILTRESSE Sébastien | Portfolio"
+
 - **2025-07-23**  
   v0.0.9
   
@@ -98,10 +105,10 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 🚀 Objectifs à venir
 
-- Ajout d'un système de back-office via Firebase pour gérer les contenus.
-- Ajout d'une section "Projets" dynamique connectée à Firestore.
-- Mise en place d'un système multilingue (FR/EN).
-- Amélioration SEO et accessibilité.
+ [ ] Ajout d'un système de back-office via Firebase pour gérer les contenus.
+ [x] ~~Ajout d'une section "Projets" dynamique connectée à Firestore.~~
+ [ ] Mise en place d'un système multilingue (FR/EN).
+ [ ] Amélioration SEO et accessibilité.
 
 ---
 

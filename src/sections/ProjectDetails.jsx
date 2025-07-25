@@ -5,57 +5,74 @@ import * as SiIcons from "react-icons/si";
 import * as FiIcons from "react-icons/fi";
 import * as FaIcons from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import projects from '../data/projects';
 import skills from "../data/skills";
 import technologies from "../data/technologies";
 import Modal from "../utils/modal";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-// Import Swiper React components
+// Import Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const iconLibraries = {
-    DiIcons,
-    SiIcons,
-    FiIcons,
-    FaIcons,
-};
+const iconLibraries = { DiIcons, SiIcons, FiIcons, FaIcons };
 
 const getTechDataByName = (name) => {
-    return (
-        skills.find((item) => item.name === name) ||
-        technologies.find((item) => item.name === name) ||
-        null
-    );
+    return skills.find(item => item.name === name) ||
+        technologies.find(item => item.name === name) ||
+        null;
 };
 
 export default function ProjectDetails() {
     const { id } = useParams();
-    const idNumber = Number(id);
-    const project = projects.find(project => project.id === idNumber);
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
-        if (project) {
-            document.title = `${project.title} | Portfolio`;
-        }
-    }, [project]);
+        const fetchProject = async () => {
+            try {
+                const docRef = doc(db, "projects", id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setProject(docSnap.data());
+                    document.title = `${docSnap.data().title} | BILTRESSE Sébastien`;
+                } else {
+                    setProject(null);
+                }
+            } catch (error) {
+                console.error("Erreur de chargement du projet :", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (!project) {
+        fetchProject();
+    }, [id]);
+
+    if (loading) {
         return (
-            <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-                <p>Projet non trouvé.</p>
-                <Link to="/projects" className="text-blue-600 hover:underline">← Retour aux projets</Link>
+            <div className="min-h-screen p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200 flex justify-center items-center">
+                <p>Chargement du projet...</p>
             </div>
         );
     }
 
-    const { title, client, endDate, duration, images, longDescription } = project;
+    if (!project) {
+        return (
+            <div className="min-h-screen p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200">
+                <p>Projet non trouvé.</p>
+                <Link to="/#projects" className="text-blue-600 hover:underline">← Retour aux projets</Link>
+            </div>
+        );
+    }
+
+    const { title, client, endDate, duration, images, longDescription, technologies: techList } = project;
 
     const formatDate = (dateString) => {
         const date = new Date(`${dateString}-01`);
@@ -71,16 +88,17 @@ export default function ProjectDetails() {
                         ← Retour aux projets
                     </Link>
                 </div>
+
                 <p className="text-gray-600 dark:text-gray-400 mb-4">Client : {client}</p>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
                     Livré : {formatDate(endDate)} • Durée : {duration}
                 </p>
 
-                {/* Galerie Swiper */}
+                {/* Swiper Gallery */}
                 <div className="relative mb-6">
                     <h3 className="text-xl font-semibold mb-2">Galerie</h3>
                     <div className="relative">
-                        {/* Boutons externes */}
+                        {/* Custom arrows */}
                         <button className="absolute -left-8 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full z-10 swiper-button-prev-custom">
                             <FiChevronLeft size={24} />
                         </button>
@@ -94,10 +112,7 @@ export default function ProjectDetails() {
                                 nextEl: '.swiper-button-next-custom',
                                 prevEl: '.swiper-button-prev-custom'
                             }}
-                            pagination={{
-                                clickable: true,
-                                el: '.custom-swiper-pagination',
-                            }}
+                            pagination={{ clickable: true, el: '.custom-swiper-pagination' }}
                             autoplay={{ delay: 5000, disableOnInteraction: false }}
                             loop={true}
                             spaceBetween={20}
@@ -120,7 +135,7 @@ export default function ProjectDetails() {
                             ))}
                         </Swiper>
 
-                        {/* Pagination sous le Swiper */}
+                        {/* Pagination */}
                         <div className="custom-swiper-pagination mt-2 flex justify-center gap-2"></div>
                     </div>
                 </div>
@@ -143,9 +158,8 @@ export default function ProjectDetails() {
 
                 <h3 className="text-xl font-semibold mb-2">Technologies utilisées</h3>
                 <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((techName, index) => {
+                    {techList && techList.length > 0 ? techList.map((techName, index) => {
                         const techData = getTechDataByName(techName);
-
                         if (!techData) {
                             return (
                                 <span
@@ -156,9 +170,7 @@ export default function ProjectDetails() {
                                 </span>
                             );
                         }
-
                         const IconComponent = iconLibraries[techData.library][techData.icon];
-
                         return (
                             <span
                                 key={index}
@@ -168,7 +180,9 @@ export default function ProjectDetails() {
                                 <span>{techData.name}</span>
                             </span>
                         );
-                    })}
+                    }) : (
+                        <span className="text-gray-600 dark:text-gray-400">Aucune technologie spécifiée.</span>
+                    )}
                 </div>
             </div>
         </div>
