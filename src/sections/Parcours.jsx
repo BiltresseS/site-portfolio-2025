@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGraduationCap, FaBriefcase } from "react-icons/fa";
-import parcours from "../data/parcours";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase.js";
 import sortByDateDesc from "../utils/sortByDate";
 
 const formatDateRange = (start, end) => {
@@ -15,6 +16,16 @@ const Parcours = () => {
     const [visible, setVisible] = useState(false);
     const timelineRef = useRef(null);
     const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [parcours, setParcours] = useState([]);
+
+    useEffect(() => {
+        const fetchParcours = async () => {
+            const querySnapshot = await getDocs(collection(db, "parcours"));
+            const entries = querySnapshot.docs.map(doc => doc.data());
+            setParcours(sortByDateDesc(entries));
+        };
+        fetchParcours();
+    }, []);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -42,8 +53,6 @@ const Parcours = () => {
         return () => document.removeEventListener("click", handleClickOutside);
     }, []);
 
-    const sortedEvents = sortByDateDesc(parcours);
-
     return (
         <section
             ref={timelineRef}
@@ -52,11 +61,10 @@ const Parcours = () => {
         >
             <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-primary dark:text-accent">Mon Parcours</h2>
             <div className="relative w-full max-w-4xl">
-                {/* Barre verticale */}
                 <div className="absolute top-0 bottom-0 sm:left-1/2 sm:transform sm:-translate-x-1/2 left-2 w-1 bg-accent dark:bg-primary"></div>
 
                 <div className="space-y-12">
-                    {sortedEvents.map((event, index) => {
+                    {parcours.map((event, index) => {
                         const color = event.type === "formation" ? "border-blue-500" : "border-green-500";
 
                         return (
@@ -69,7 +77,6 @@ const Parcours = () => {
                                     ${visible ? 'opacity-100' : 'opacity-0'}
                                 `}
                             >
-                                {/* Point */}
                                 <div
                                     className={`
                                         w-4 h-4 
@@ -82,7 +89,6 @@ const Parcours = () => {
                                     `}
                                 ></div>
 
-                                {/* Carte */}
                                 <div
                                     className={`
                                         bg-accent-light dark:bg-primary-dark rounded-lg shadow-md p-6
@@ -92,7 +98,7 @@ const Parcours = () => {
                                     onMouseEnter={() => setHoveredIndex(index)}
                                     onMouseLeave={() => setHoveredIndex(null)}
                                     onClick={(e) => {
-                                        e.stopPropagation(); // évite les doublons d'événements sur le document
+                                        e.stopPropagation();
                                         setHoveredIndex(index);
                                     }}
                                 >
@@ -108,7 +114,6 @@ const Parcours = () => {
                                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{event.location}</p>
                                     <p className="text-gray-700 dark:text-gray-300">{event.description}</p>
 
-                                    {/* Popover animé Framer Motion */}
                                     <AnimatePresence>
                                         {hoveredIndex === index && (
                                             <motion.div

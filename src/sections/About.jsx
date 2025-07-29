@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 import * as DiIcons from "react-icons/di";
 import * as SiIcons from "react-icons/si";
 import * as FiIcons from "react-icons/fi";
 import * as FaIcons from "react-icons/fa";
-import skills from "../data/skills";
-import technologies from "../data/technologies";
 
 const iconLibraries = {
     DiIcons,
@@ -15,6 +15,8 @@ const iconLibraries = {
 
 const About = () => {
     const [visible, setVisible] = useState(false);
+    const [skillsList, setSkillsList] = useState([]);
+    const [technologiesList, setTechnologiesList] = useState([]);
     const aboutRef = useRef(null);
 
     useEffect(() => {
@@ -35,6 +37,26 @@ const About = () => {
         return () => {
             if (aboutRef.current) observer.unobserve(aboutRef.current);
         };
+    }, []);
+
+    useEffect(() => {
+        const fetchSkills = async () => {
+            const snapshot = await getDocs(collection(db, "skills"));
+            const allData = snapshot.docs.map(doc => doc.data());
+
+            const orderedSkills = allData
+                .filter(item => item.type === "skill")
+                .sort((a, b) => a.order - b.order);
+
+            const orderedTechnos = allData
+                .filter(item => item.type === "technology")
+                .sort((a, b) => a.order - b.order);
+
+            setSkillsList(orderedSkills);
+            setTechnologiesList(orderedTechnos);
+        };
+
+        fetchSkills();
     }, []);
 
     return (
@@ -61,57 +83,52 @@ const About = () => {
                     {/* Logiciels */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent text-center">Logiciels</h3>
-                        {skills.map((skill) => (
-                            <div key={skill.name} className="flex flex-col items-start space-y-1">
-                                <div className="flex items-center space-x-2">
-                                    {
-                                        (() => {
-                                            const IconComponent = iconLibraries[skill.library][skill.icon];
-                                            return <IconComponent size={24} className={skill.color} />;
-                                        })()
-                                    }
-                                    <span className="font-medium dark:text-dark">{skill.name}</span>
+                        {skillsList.map((skill) => {
+                            const IconComponent = iconLibraries[skill.library]?.[skill.icon];
+                            return (
+                                <div key={skill.name} className="flex flex-col items-start space-y-1">
+                                    <div className="flex items-center space-x-2">
+                                        {IconComponent && <IconComponent size={24} className={skill.color} />}
+                                        <span className="font-medium dark:text-dark">{skill.name}</span>
+                                    </div>
+                                    <div className="w-full bg-encadre-slider rounded-full h-3">
+                                        <div
+                                            className={`h-3 rounded-full transition-all duration-1000 ease-in-out 
+                                                ${visible ? 'w-full' : 'w-0'}
+                                                ${visible ? 'bg-gradient-to-r from-primary to-primary-dark dark:from-accent dark:to-accent-light' : ''}
+                                            `}
+                                            style={{ width: visible ? `${skill.level}%` : "0%" }}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="w-full bg-encadre-slider rounded-full h-3">
-                                    <div
-                                        className={`h-3 rounded-full transition-all duration-1000 ease-in-out 
-                                            ${visible ? 'w-full' : 'w-0'}
-                                            ${visible ? 'bg-gradient-to-r from-primary to-primary-dark dark:from-accent dark:to-accent-light' : ''}
-                                        `}
-                                        style={{ width: visible ? `${skill.level}%` : "0%" }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {/* Technologies */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-semibold mb-4 text-primary dark:text-accent text-center">Technologies</h3>
-                        {technologies.map((tech) => (
-                            <div key={tech.name} className="flex flex-col items-start space-y-1">
-                                <div className="flex items-center space-x-2">
-                                    {
-                                        (() => {
-                                            const IconComponent = iconLibraries[tech.library][tech.icon];
-                                            return <IconComponent size={24} className={tech.color} />;
-                                        })()
-                                    }
-                                    <span className="font-medium dark:text-dark">{tech.name}</span>
+                        {technologiesList.map((tech) => {
+                            const IconComponent = iconLibraries[tech.library]?.[tech.icon];
+                            return (
+                                <div key={tech.name} className="flex flex-col items-start space-y-1">
+                                    <div className="flex items-center space-x-2">
+                                        {IconComponent && <IconComponent size={24} className={tech.color} />}
+                                        <span className="font-medium dark:text-dark">{tech.name}</span>
+                                    </div>
+                                    <div className="w-full bg-encadre-slider rounded-full h-3">
+                                        <div
+                                            className={`h-3 rounded-full transition-all duration-1000 ease-in-out 
+                                                ${visible ? 'w-full' : 'w-0'}
+                                                ${visible ? 'bg-gradient-to-r from-primary to-primary-dark dark:from-accent dark:to-accent-light' : ''}
+                                            `}
+                                            style={{ width: visible ? `${tech.level}%` : "0%" }}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="w-full bg-encadre-slider rounded-full h-3">
-                                    <div
-                                        className={`h-3 rounded-full transition-all duration-1000 ease-in-out 
-                                            ${visible ? 'w-full' : 'w-0'}
-                                            ${visible ? 'bg-gradient-to-r from-primary to-primary-dark dark:from-accent dark:to-accent-light' : ''}
-                                        `}
-                                        style={{ width: visible ? `${tech.level}%` : "0%" }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
-
                 </div>
             </div>
         </section>

@@ -14,6 +14,15 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-29**  
+  v0.1.1
+  
+  - Ajout des données de mon parcours et de mes skills sur Firebase
+  - Création de 2 scriptes qui gèrent les données Firebase sans devoir les rentrer à la main (très pratique, je recommande !)
+  - Création de firebase-template.js pour avoir un template à remplir avec les credentials lors de la recréation d'un projet similaire
+  - Suppression de firebase.js du repository GitHub (oups)
+  - Suppression des tables de données contenues dans src/data : maintenant, les données sont sur Firebase
+
 - **2025-07-25**  
   v0.1.0
   
