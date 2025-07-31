@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaCheckCircle, FaTimesCircle, FaExclamationCircle } from "react-icons/fa";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function Contact() {
+    const { globalContent } = useContext(GlobalContext);
     const [status, setStatus] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -44,8 +46,12 @@ export default function Contact() {
         } catch {
             setStatus("ERROR");
         }
+
         setIsLoading(false);
     };
+
+    const contactFields = globalContent?.contact?.fields || [];
+    const sortedFields = [...contactFields].sort((a, b) => a.order - b.order);
 
     return (
         <section
@@ -53,40 +59,23 @@ export default function Contact() {
             className="min-h-screen flex flex-col items-center justify-center p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200"
         >
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center text-primary dark:text-accent">Contactez-moi</h2>
-            <p className="max-w-xl text-center mb-6">
-                Une question, un projet ou une opportunité professionnelle&nbsp;? Utilise ce formulaire pour me contacter directement.
-                Si le formulaire ne fonctionne pas, vous pouvez m'écrire à
-                <a
-                    href="mailto:biltresse.sebastien@gmail.com"
-                    className="text-blue-600 dark:text-blue-400 hover:underline ml-1"
-                >
-                    biltresse.sebastien [at] gmail.com
-                </a>
-                .
-            </p>
+            <p
+                className="max-w-xl text-center mb-6"
+                dangerouslySetInnerHTML={{ __html: globalContent.contact.text }}
+            ></p>
 
-            {status === "SUCCESS" ? (
-                <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <FaCheckCircle className="text-green-600 dark:text-green-400 text-5xl mb-4" />
-                    <p className="text-lg text-center">
-                        Merci pour votre message ! Je reviendrai vers vous rapidement.
-                    </p>
-                </div>
-            ) : status === "ERROR" ? (
-                <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <FaTimesCircle className="text-red-600 dark:text-red-400 text-5xl mb-4" />
-                    <p className="text-lg text-center">
-                        Une erreur est survenue. Merci de réessayer ou de me contacter par mail.
-                    </p>
-                </div>
-            ) : status === "INVALID_EMAIL" ? (
-                <div className="flex flex-col items-center justify-center animate-fade-in">
-                    <FaExclamationCircle className="text-yellow-600 dark:text-yellow-400 text-5xl mb-4" />
-                    <p className="text-lg text-center">
-                        L'adresse email semble invalide. Merci de vérifier avant d'envoyer.
-                    </p>
-                </div>
-            ) : (
+            {/* Messages de feedback */}
+            {status === "SUCCESS" && (
+                <Feedback icon={<FaCheckCircle />} color="green" message="Merci pour votre message ! Je reviendrai vers vous rapidement." />
+            )}
+            {status === "ERROR" && (
+                <Feedback icon={<FaTimesCircle />} color="red" message="Une erreur est survenue. Merci de réessayer ou de me contacter par mail." />
+            )}
+            {status === "INVALID_EMAIL" && (
+                <Feedback icon={<FaExclamationCircle />} color="yellow" message="L'adresse email semble invalide. Merci de vérifier avant d'envoyer." />
+            )}
+
+            {status === "" && (
                 <form
                     onSubmit={handleSubmit}
                     className="w-full max-w-lg bg-encadre dark:bg-encadre-dark p-6 rounded shadow space-y-4 animate-fade-in"
@@ -98,65 +87,58 @@ export default function Contact() {
                             <input
                                 type="text"
                                 name="website"
-                                id="web"
+                                id="website"
                                 className="w-full p-2 border rounded bg-base dark:text-gray-800"
-                                placeholder="vote site"
+                                placeholder="Votre site"
                             />
                         </label>
                     </div>
 
-                    <div>
-                        <label htmlFor="name" className="block mb-1">Nom</label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            required
-                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
-                            placeholder="Votre nom"
-                        />
-                    </div>
+                    {/* Champs dynamiques depuis Firebase */}
+                    {sortedFields.map((field) => {
+                        const { name, type, required, label, placeHolder, autoComplete, key } = field;
 
-                    <div>
-                        <label htmlFor="organization" className="block mb-1">Organisation (optionnel)</label>
-                        <input
-                            type="text"
-                            name="organization"
-                            id="organization"
-                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
-                            placeholder="Nom de l'organisation"
-                        />
-                    </div>
+                        const autoCompleteValue =
+                            autoComplete ||
+                            (type === "email" ? "email"
+                                : type === "tel" ? "tel"
+                                    : name === "name" ? "name"
+                                        : name === "organization" ? "organization"
+                                            : "off");
 
-                    <div>
-                        <label htmlFor="email" className="block mb-1">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            required
-                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
-                            placeholder="votremail@example.com"
-                        />
-                    </div>
+                        return (
+                            <div key={name}>
+                                <label htmlFor={key} className="block mb-1">{label || name}</label>
 
-                    <div>
-                        <label htmlFor="message" className="block mb-1">Message</label>
-                        <textarea
-                            name="message"
-                            id="message"
-                            required
-                            rows="5"
-                            className="w-full p-2 border rounded bg-base dark:text-gray-800"
-                            placeholder="Votre message..."
-                        ></textarea>
-                    </div>
+                                {type === "textarea" ? (
+                                    <textarea
+                                        name={key}
+                                        id={key}
+                                        required={required}
+                                        rows="5"
+                                        autoComplete={autoCompleteValue}
+                                        className="w-full p-2 border rounded bg-base dark:text-gray-800"
+                                        placeholder={placeHolder}
+                                    />
+                                ) : (
+                                    <input
+                                        type={["email", "tel", "text"].includes(type) ? type : "text"}
+                                        name={key}
+                                        id={key}
+                                        required={required}
+                                        autoComplete={autoCompleteValue}
+                                        className="w-full p-2 border rounded bg-base dark:text-gray-800"
+                                        placeholder={placeHolder}
+                                    />
+                                )}
+                            </div>
+                        );
+                    })}
 
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                        className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
                         {isLoading ? "Envoi..." : "Envoyer"}
                     </button>
@@ -165,3 +147,11 @@ export default function Contact() {
         </section>
     );
 }
+
+// Composant réutilisable pour les messages de feedback
+const Feedback = ({ icon, color, message }) => (
+    <div className="flex flex-col items-center justify-center animate-fade-in">
+        <div className={`text-${color}-600 dark:text-${color}-400 text-5xl mb-4`}>{icon}</div>
+        <p className="text-lg text-center">{message}</p>
+    </div>
+);

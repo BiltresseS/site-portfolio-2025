@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect, useContext } from "react";
+import { useParams, Link } from "react-router-dom";
 import * as DiIcons from "react-icons/di";
 import * as SiIcons from "react-icons/si";
 import * as FiIcons from "react-icons/fi";
 import * as FaIcons from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import skills from "../data/skills";
-import technologies from "../data/technologies";
 import Modal from "../utils/modal";
-import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { GlobalContext } from "../context/GlobalContext";
 
-// Import Swiper
+// Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -20,54 +17,29 @@ import 'swiper/css/pagination';
 
 const iconLibraries = { DiIcons, SiIcons, FiIcons, FaIcons };
 
-const getTechDataByName = (name) => {
-    return skills.find(item => item.name === name) ||
-        technologies.find(item => item.name === name) ||
-        null;
-};
-
 export default function ProjectDetails() {
     const { id } = useParams();
-    const [project, setProject] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { projects, skills, loading } = useContext(GlobalContext);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [project, setProject] = useState(null);
 
+    // Trouver le projet correspondant à l'ID dès que les projets sont disponibles
     useEffect(() => {
-        const fetchProject = async () => {
-            try {
-                const docRef = doc(db, "projects", id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setProject(docSnap.data());
-                    document.title = `${docSnap.data().title} | BILTRESSE Sébastien`;
-                } else {
-                    setProject(null);
-                }
-            } catch (error) {
-                console.error("Erreur de chargement du projet :", error);
-            } finally {
-                setLoading(false);
+        if (!loading && projects.length > 0) {
+            const found = projects.find(p => p.id === id);
+            setProject(found);
+            if (found) {
+                document.title = `${found.title} | BILTRESSE Sébastien`;
             }
-        };
+        }
+    }, [id, loading, projects]);
 
-        fetchProject();
-    }, [id]);
-
-    if (loading) {
+    if (loading || !project) {
         return (
             <div className="min-h-screen p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200 flex justify-center items-center">
-                <p>Chargement du projet...</p>
-            </div>
-        );
-    }
-
-    if (!project) {
-        return (
-            <div className="min-h-screen p-8 bg-base dark:bg-base-dark text-gray-800 dark:text-gray-200">
-                <p>Projet non trouvé.</p>
-                <Link to="/#projects" className="text-blue-600 hover:underline">← Retour aux projets</Link>
+                <p>{loading ? "Chargement du projet..." : "Projet non trouvé."}</p>
             </div>
         );
     }
@@ -77,6 +49,10 @@ export default function ProjectDetails() {
     const formatDate = (dateString) => {
         const date = new Date(`${dateString}-01`);
         return date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    };
+
+    const getTechDataByName = (name) => {
+        return skills.find(item => item.name === name) || null;
     };
 
     return (
@@ -94,7 +70,7 @@ export default function ProjectDetails() {
                     Livré : {formatDate(endDate)} • Durée : {duration}
                 </p>
 
-                {/* Swiper Gallery */}
+                {/* Swiper Galerie */}
                 <div className="relative mb-6">
                     <h3 className="text-xl font-semibold mb-2">Galerie</h3>
                     <div className="relative">
@@ -135,7 +111,6 @@ export default function ProjectDetails() {
                             ))}
                         </Swiper>
 
-                        {/* Pagination */}
                         <div className="custom-swiper-pagination mt-2 flex justify-center gap-2"></div>
                     </div>
                 </div>
@@ -170,13 +145,13 @@ export default function ProjectDetails() {
                                 </span>
                             );
                         }
-                        const IconComponent = iconLibraries[techData.library][techData.icon];
+                        const IconComponent = iconLibraries[techData.library]?.[techData.icon];
                         return (
                             <span
                                 key={index}
                                 className="flex items-center space-x-1 bg-accent-light dark:bg-primary-dark dark:text-blue-200 px-2 py-1 rounded text-sm"
                             >
-                                <IconComponent size={18} className={techData.color} />
+                                {IconComponent && <IconComponent size={18} className={techData.color} />}
                                 <span>{techData.name}</span>
                             </span>
                         );

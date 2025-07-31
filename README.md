@@ -14,6 +14,20 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-07-31**  
+  v0.1.2
+  
+  - Ajout des données globales sur Firebase
+  - Modification des pages Hero.jsx, About.jsx et Contact.jsx afin d'utiliser les données de Firebase pour afficher les textes et le formulaire
+  - Nouvelle stratégie pour les appels Firebase : 
+    - Création d'un contexte global
+    - Appel du contexte global au premier chargement du site
+    - Implémentation du contexte global dans toutes les pages
+    Maintenant, le site demande toutes les données à Firebase une fois (et une seule fois) avant la génération du site au lieu d'un appel sur chaque section.
+  - Ajout de toutes les couleurs de Tailwind dans la safelist (taiwlind.config.mjs) dans le cas où la couleur serait nécessaire lors de l'ajout dynamique d'une icône dans les skills ou technologies (Tailwind ne les génère pas automatiquement à la création du site car à la création du site la requête Firebase pour récupérer les Skills et Technologies n'a pas encore renvoyé de réponse)
+  - Ajout d'une petite animation lors du chargement des données (ne clignez pas des yeux, vous pourriez la manquer...)
+  - Même le footer est dynamique maintenant ! xD
+
 - **2025-07-29**  
   v0.1.1
   

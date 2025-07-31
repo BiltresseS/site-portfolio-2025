@@ -1,29 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { db } from "../firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { GlobalContext } from "../context/GlobalContext";
+import sortByDateDesc from "../utils/sortByDate";
 
 export default function Projects() {
-    const [projects, setProjects] = useState([]);
+    const { projects } = useContext(GlobalContext);
     const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth < 640 ? 3 : 6);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         document.title = "BILTRESSE Sébastien | CV + Portfolio";
-    }, []);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            const q = query(collection(db, "projects"), orderBy("endDate", "desc"));
-            const querySnapshot = await getDocs(q);
-            const fetchedProjects = [];
-            querySnapshot.forEach((doc) => {
-                fetchedProjects.push({ id: doc.id, ...doc.data() });
-            });
-            setProjects(fetchedProjects);
-        };
-
-        fetchProjects();
     }, []);
 
     useEffect(() => {
@@ -36,9 +22,11 @@ export default function Projects() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const totalPages = Math.ceil(projects.length / itemsPerPage);
+    const sortedProjects = sortByDateDesc(projects);
 
-    const currentProjects = projects.slice(
+    const totalPages = Math.ceil(sortedProjects.length / itemsPerPage);
+
+    const currentProjects = sortedProjects.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -72,7 +60,7 @@ export default function Projects() {
                     >
                         <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{project.client}</p>
-                        {project.images && project.images[0] && (
+                        {project.images?.[0] && (
                             <img
                                 src={project.images[0]}
                                 alt={project.title}

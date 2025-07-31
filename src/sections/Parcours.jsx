@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGraduationCap, FaBriefcase } from "react-icons/fa";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase.js";
+import { GlobalContext } from "../context/GlobalContext";
 import sortByDateDesc from "../utils/sortByDate";
 
 const formatDateRange = (start, end) => {
@@ -13,19 +12,12 @@ const formatDateRange = (start, end) => {
 };
 
 const Parcours = () => {
+    const { parcours } = useContext(GlobalContext); // ⬅️ données depuis le contexte
     const [visible, setVisible] = useState(false);
     const timelineRef = useRef(null);
     const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [parcours, setParcours] = useState([]);
 
-    useEffect(() => {
-        const fetchParcours = async () => {
-            const querySnapshot = await getDocs(collection(db, "parcours"));
-            const entries = querySnapshot.docs.map(doc => doc.data());
-            setParcours(sortByDateDesc(entries));
-        };
-        fetchParcours();
-    }, []);
+    const sortedParcours = sortByDateDesc(parcours);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -64,7 +56,7 @@ const Parcours = () => {
                 <div className="absolute top-0 bottom-0 sm:left-1/2 sm:transform sm:-translate-x-1/2 left-2 w-1 bg-accent dark:bg-primary"></div>
 
                 <div className="space-y-12">
-                    {parcours.map((event, index) => {
+                    {sortedParcours.map((event, index) => {
                         const color = event.type === "formation" ? "border-blue-500" : "border-green-500";
 
                         return (

@@ -1,25 +1,20 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const careers = [
-    "Graphiste",
-    "Metteur en page",
-    "Designer Web",
-    "Développeur Web",
-    "Développeur d'app mobiles",
-];
-
-export default function AnimatedCareerLoop() {
+export default function AnimatedCareerLoop({ careers = [] }) {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
+        if (careers.length === 0) return;
+
         const timer = setInterval(() => {
             setIndex((prev) => (prev + 1) % careers.length);
         }, 2500);
-        return () => clearInterval(timer);
-    }, []);
 
-    const current = careers[index];
+        return () => clearInterval(timer);
+    }, [careers]);
+
+    const current = careers[index] || "";
 
     return (
         <div className="relative h-12 w-full flex justify-center items-center overflow-hidden">

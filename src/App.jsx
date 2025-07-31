@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { GlobalContext } from "./context/GlobalContext";
+import LoadingScreen from './components/LoadingScreen';
 import Layout from './components/Layout';
 import ScrollToHashElement from './components/ScrollToHashElement';
 import Hero from './sections/Hero';
@@ -12,9 +14,13 @@ import Footer from './sections/Footer';
 import './App.css'
 
 function App() {
+  const { loading } = useContext(GlobalContext);
+
   useEffect(() => {
     document.title = "BILTRESSE Sébastien | CV + Portfolio";
   }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <>

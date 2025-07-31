@@ -1,7 +1,7 @@
 {
   "name": "sbiltresse-site-portfolio",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "tailwind:init": "tailwindcss init -p",
+    "seed:global": "node scripts/setGlobalContent.js",
     "seed:parcours": "node scripts/setParcours.js",
     "seed:skills": "node scripts/setSkills.js"
   },
