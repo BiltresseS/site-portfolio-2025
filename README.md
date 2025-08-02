@@ -14,6 +14,11 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📜 Historique des mises à jour
 
+- **2025-08-02**  
+  v1.0.0
+  
+  - Hébergement du site sur Firebase Hosting. Champagne !
+
 - **2025-07-31**  
   v0.1.2
   
@@ -23,7 +28,7 @@ Ce projet me permet également de maintenir mes compétences en développement f
     - Création d'un contexte global
     - Appel du contexte global au premier chargement du site
     - Implémentation du contexte global dans toutes les pages
-    Maintenant, le site demande toutes les données à Firebase une fois (et une seule fois) avant la génération du site au lieu d'un appel sur chaque section.
+  Maintenant, le site demande toutes les données à Firebase une fois (et une seule fois) avant la génération du site au lieu d'un appel sur chaque section.
   - Ajout de toutes les couleurs de Tailwind dans la safelist (taiwlind.config.mjs) dans le cas où la couleur serait nécessaire lors de l'ajout dynamique d'une icône dans les skills ou technologies (Tailwind ne les génère pas automatiquement à la création du site car à la création du site la requête Firebase pour récupérer les Skills et Technologies n'a pas encore renvoyé de réponse)
   - Ajout d'une petite animation lors du chargement des données (ne clignez pas des yeux, vous pourriez la manquer...)
   - Même le footer est dynamique maintenant ! xD
@@ -137,7 +142,10 @@ Ce projet me permet également de maintenir mes compétences en développement f
 
 ## 📂 Déploiement
 
-Ce projet sera accessible en ligne dès sa stabilisation via **Firebase Hosting**.
+Ce projet a été déployé avec succès sur **Firebase Hosting** et peut désormais être accessible à l'adresse suivante :
+https://www.sbiltresse.be/
+
+Dorénavant, toutes les mises à jour dans le projet se reflèteront à cette adresse.
 
 ---
 
